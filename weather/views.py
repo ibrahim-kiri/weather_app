@@ -3,6 +3,7 @@ from django.shortcuts import render
 import json
 import urllib.request
 from urllib.parse import quote
+import os
 
 # Create your views here.
 def index(request):
@@ -13,7 +14,8 @@ def index(request):
         try:
             city = request.POST['city']
             encoded_city = quote(city)
-            url = f'https://api.openweathermap.org/data/2.5/weather?q={encoded_city}&appid=5e15df7e06a7bffaec25c3049e341532'
+            api_key = os.getenv('OPENWEATHER_API_KEY')
+            url = f'https://api.openweathermap.org/data/2.5/weather?q={encoded_city}&appid={api_key}'
 
             res = urllib.request.urlopen(url).read()
             json_data = json.loads(res)
